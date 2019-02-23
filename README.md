@@ -70,3 +70,81 @@ Altere as configurações de usuário (User settings) do VSCode e adicione os se
   "editor.formatOnSave": true
 }
 ```
+
+## Vue Router
+
+Usado para criar Single Page Application (SPA), que são aplicativos web que carregam uma única página e dinâmicamente atualiza conforme o usuário interage com a aplicação.
+Ao utilizar Client-Side Routing conseguimos criar uma SPA, algo que o Vue Router faz para nós.
+
+Para criarmos links entre página utilizamos os seguintes componentes:
+
+- **router-link**: Um componente que cria um link para navegar a uma rota
+- **router-view**: Um placeholder o qual renderiza o componente encontrado com este link
+
+Podemos utilizar tanto a url para ir em outras páginas como tambem o nome da rota utilizada
+
+```js
+// Rotas criadas
+{
+  path: "/",
+  name: "home",
+  component: Home
+},
+{
+  path: "/about",
+  name: "about",
+  component: About
+}
+```
+
+```html
+<!-- Exemplo de utilização de rotas (nome e url) -->
+<router-link :to="{ name: 'home' }">Home</router-link> |
+<router-link to="/about">About</router-link>
+```
+
+O Benefício de utilizar rotas nomeadas é que se precisarmos trocar a url futuramente, só precisamos alterar em um local (Arquivo de rotas)
+
+Quando uma aplicação já está no ar e queremos alterar a url de uma das páginas, podemos solucionar de várias maneiras, sendo elas:
+
+Exemplos: **about** para **about-us**
+
+Por Redirect (Melhor para SEO)
+
+```js
+{
+  path: "/about-us",
+  name: "about",
+  component: About
+},
+{
+  path: "/about",
+  redirect: { name: "about" }
+  // redirect: "/about-us"
+}
+```
+
+Por Alias
+
+```js
+{
+  path: "/about-us",
+  name: "about",
+  component: About,
+  alias: "/about"
+}
+```
+
+É possível criar tambem lazy load pages, onde o código da página é baixado somente quando ela for acessada:
+
+```js
+{
+  path: "/about",
+  name: "about",
+  // route level code-splitting
+  // this generates a separate chunk (about.[hash].js) for this route
+  // which is lazy-loaded when the route is visited.
+  component: () =>
+    import(/* webpackChunkName: "about" */ "./views/About.vue")
+}
+```
