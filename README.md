@@ -221,3 +221,39 @@ Para configurar podemos encontrar um tutorial especifico na página do Vue demon
 Porem com isto seu servidor não responderá mais o erro 404. Podemos resolver este problema de várias maneiras, onde uma delas e adicionar uma rota com path **\*** por ultimo no seu router, para assim carregar uma página (componente) 404
 
 OBS: _O History Mode não é utilizado como default pois somente suporta o IE versão 10 para frente e o Vue tenta suportar desde a versão 9_
+
+## Single File Components
+
+Componentes construtores da aplicação Vue, sendo similares a peças de lego em conceito, onde sua aplicação ficará estruturada como uma arvore de componentes.
+
+### Anatomy
+
+- **template**: Esqueleto que forma a estrutura do seu componente (HTML/PUG)
+- **script**: É o cérebro que fornece a lógica e funcionalidades (JS/TS)
+- **style**: É a vestimenta, onde prove o estilo e aparência do componente (CSS/SCSS)
+
+Se quisermos utilizar outro formato de HTML, podemos setar o atributo lang
+
+```html
+<template lang="pug"></template>
+```
+
+Se quisermos utilizar typescript, podemos setar da seguinte forma:
+
+```html
+<script lang="ts"></script>
+```
+
+Se quisermos usar SCSS para estilização, adicionamos assim:
+
+```html
+<style lang="scss"></style>
+```
+
+Porem para utilizarmos estas alterações, precisamos configurar corretamente os preloaders do webpack.
+
+No site do Vue podemos visualizar quais préloaders devemos instalar para conseguir utilizar essas linguagens acessando o tópico **Using Pre-Processors**.
+
+### Nested Components
+
+### Global and Scoped Styles
