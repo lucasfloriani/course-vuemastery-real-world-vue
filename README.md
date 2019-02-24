@@ -290,3 +290,68 @@ requireComponent.keys().forEach(fileName => {
   Vue.component(componentName, componentConfig.default || componentConfig);
 });
 ```
+
+## Slots
+
+Slot é usado para adicionar pedaços de código dentro de um componente, aumentando assim sua usabilidade.
+
+```html
+<!--Form.vue-->
+<template>
+  <BaseButton>SUBMIT</BaseButton>
+</template>
+<!--BaseButton.vue-->
+<template>
+  <div>
+    <button><slot>Valor Default do Slot</slot></button>
+  </div>
+</template>
+```
+
+Slots tem acesso a propriedade data do local onde esta sendo usado, por exemplo:
+
+```html
+<!--Form.vue-->
+<!--data.total-->
+<template>
+  <BaseButton>Purchase for ${{ total }}</BaseButton>
+</template>
+<!--BaseButton.vue-->
+<template>
+  <div>
+    <button><slot></slot></button>
+  </div>
+</template>
+```
+
+Caso queiramos deixar 2 locais abertos para conteudo utilizando slots, nos precisamos utilizar **Named Slots**
+
+```html
+<!--MediaBox.vue-->
+<slot name="heading"></slot>
+<slot name="paragraph"></slot>
+<!--Parent.vue-->
+<template>
+  <MediaBox>
+    <h2 slot="heading">Adam Jahr</h2>
+    <p slot="paragraph">My words.</p>
+  </MediaBox>
+</template>
+```
+
+Podemos deixar um dos slots sem nome pois automaticamente o Vue sabera onde colocar o conteudo desejado.
+
+Se quisermos adicionar varios conteudos dentro de um slot, podemos utilizar um **template**
+
+```html
+<!--Parent.vue-->
+<template>
+  <MediaBox>
+    <h2 slot="heading">Adam Jahr</h2>
+    <template slot="paragraph">
+      <p>My words.</p>
+      <BaseIcon name="book" />
+    </template>
+  </MediaBox>
+</template>
+```
