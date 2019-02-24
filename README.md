@@ -148,3 +148,76 @@ Por Alias
     import(/* webpackChunkName: "about" */ "./views/About.vue")
 }
 ```
+
+## Dynamic Routes
+
+Usado para quando precisamos de url baseadas em valores dinâmicos, por exemplo acessar o perfil de um usuário específico utilizando seu username:
+
+```js
+// Toda a parte após : indica ao Vue Router que será totalmente dinâmico, ou seja, um parâmetro
+{
+  path: "/user/:username",
+  name: "user",
+  component: User,
+}
+```
+
+Dentro do componente, podemos pegar este valor utilizando **\$route**, o qual representa o estado da rota atual, contendo várias informações da rota alem dos parâmetros.
+
+```html
+<h1>Usuário com username {{$router.params.username}}</h1>
+```
+
+Para criar um link para uma rota dinâmica usamos o seguindo código:
+
+```html
+<router-link
+  :to="{
+    name: 'user',
+    params: {
+      username: 'Gregg'
+    }
+  }"
+>
+  Gregg
+</router-link>
+```
+
+Usar **\$route** dentro de um componente limita sua flexibilidade, existindo assim uma forma mais modular de fazer isto.
+Podemos adicionar uma opção a mais em nossa rota para que os parametros que são passados na url sejam enviados ao componente como parâmetro:
+
+```js
+{
+  path: "/user/:username",
+  name: "user",
+  component: User,
+  props: true,
+}
+```
+
+Assim os valores presentes em **\$route.params** são enviados como props ao componente adicionado na opção da rota.
+Com isto o componente ficará mais maleável para utilização em vários locais, não ficando assim atrelado a url da rota onde será utilizado
+
+## HTML5 History Mode
+
+O modo padrão de simular páginas no Vue Router é o **Hashmode**, para remover-mos a **#** que aparece na url precisamos passar algumas configurações para a nossa instância do Router
+
+```js
+{
+  mode: "history",
+}
+```
+
+Esta opção usa o **HistoryMode** que utiliza a history API do navegador para mudar de página sem recarregar a página.
+
+### Como funciona o History Mode
+
+Diferente de Server Browsing onde toda url que é chamada é trazido um html diferente, com o History Mode toda url que é carregada traz o mesmo index.html
+
+Porem quando carregamos Vue em um ambiente de produção diferente nós precisamos configurar para fazer isto funcionar.
+
+Para configurar podemos encontrar um tutorial especifico na página do Vue demonstrando o passo a passo para deixar funcionando o **HTML5 History Mode**, forçando assim a sempre retornar o index.html, igual acontece normalmente no ambiente de desenvolvimento
+
+Porem com isto seu servidor não responderá mais o erro 404. Podemos resolver este problema de várias maneiras, onde uma delas e adicionar uma rota com path **\*** por ultimo no seu router, para assim carregar uma página (componente) 404
+
+OBS: _O History Mode não é utilizado como default pois somente suporta o IE versão 10 para frente e o Vue tenta suportar desde a versão 9_
