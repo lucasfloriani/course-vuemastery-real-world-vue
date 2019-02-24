@@ -254,6 +254,39 @@ Porem para utilizarmos estas alterações, precisamos configurar corretamente os
 
 No site do Vue podemos visualizar quais préloaders devemos instalar para conseguir utilizar essas linguagens acessando o tópico **Using Pre-Processors**.
 
-### Nested Components
+## Global Components
 
-### Global and Scoped Styles
+Quais componentes devem ser registrados globalmente?
+R: Componentes de que você acaba utilizando frequentemente, como por exemplo componentes base (Icon, Button, etc)
+
+Podemos registrar um componente como global utilizando a sintaxe abaixo
+
+```js
+Vue.component("BaseIcon", BaseIcon);
+```
+
+OBS:Componentes globais devem ser registrados antes da instancia do Vue
+
+Dependendo da quantidade de componentes que serão declarados como Globais, o código pode ser complicado de gerenciar, porem podemos utilizar o registro automático com o seguinte conjunto de comandos:
+
+```js
+import Vue from "vue";
+import upperFirst from "lodash/upperFirst";
+import camelCase from "lodash/camelCase";
+
+const requireComponent = require.context(
+  "./components",
+  false,
+  /Base[A-Z]\w+\.(vue|js)$/
+);
+
+requireComponent.keys().forEach(fileName => {
+  const componentConfig = requireComponent(fileName);
+
+  const componentName = upperFirst(
+    camelCase(fileName.replace(/^\.\/(.*)\.\w+$/, "$1"))
+  );
+
+  Vue.component(componentName, componentConfig.default || componentConfig);
+});
+```
