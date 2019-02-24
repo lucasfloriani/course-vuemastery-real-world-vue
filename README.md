@@ -355,3 +355,23 @@ Se quisermos adicionar varios conteudos dentro de um slot, podemos utilizar um *
   </MediaBox>
 </template>
 ```
+
+## Api calls with Axios
+
+Biblioteca mais comumente utilizada para realização de chamadas API
+
+- GET, POST, PUT and DELETE requests
+- Adicionar autenticação para cada request
+- Adicionar timeouts se o request demorar muito
+- Configurar respostas defaults para cada request
+- Interceptar request para criar middlewares
+- Resolver errors e cancelar requests devidamente
+- Devidamente serializar e deserializar requests e responses
+
+### Basic Get Request
+
+```js
+axios.get('http://example.com/events)
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error))
+```
